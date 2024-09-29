@@ -49,5 +49,8 @@ export const locators = {
     postcode: 'input[name="postcode"]',
     country: 'select[name=country_id]',
     phone: 'input[name="telephone"]'
+  },
+  generic: {
+    loader: '.loader'
   }
 };

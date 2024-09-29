@@ -18,7 +18,7 @@ Cypress.Commands.add("addProductToCart", () => {
     cy.get(locators.product.addToCart).wait(2000);
     cy.get(locators.product.addToCart).should('exist').should('be.visible').should('be.enabled').click();
 
-    cy.get(locators.minicart.counterQty).wait(5000).find(locators.minicart.counterNumber).should('have.text', '1');
+    cy.get(locators.minicart.counterQty).wait(500).find(locators.minicart.counterNumber).should('have.text', '1');
 });
 
 Cypress.Commands.add("isShoppingCartEmpty", (isEmpty) => {
@@ -33,7 +33,7 @@ Cypress.Commands.add("isShoppingCartEmpty", (isEmpty) => {
 });
 
 Cypress.Commands.add("fillInShipping", () => {
-    cy.get('.loader').should('not.be.visible');
+    cy.waitLoader();
     cy.get(locators.checkout.shipping.address).should('be.visible').find(locators.checkout.shipping.title).should('have.text', text.shippingAddress);
     cy.get(locators.user.email).should('exist').should('be.visible').type(faker.internet.email());
     cy.get(locators.checkout.shipping.form).should('exist').should('be.visible');
@@ -54,7 +54,7 @@ Cypress.Commands.add("fillInShipping", () => {
 });
 
 Cypress.Commands.add("reviewOrder", () => {
-    cy.get('.loader').should('not.be.visible').wait(500);
+    cy.waitLoader();
     cy.get(locators.checkout.review.sameAddress).should('be.visible').find(locators.checkout.review.sameAddressInput)
     .then(($checkbox) => {
         if (!$checkbox.is(':checked')) {
@@ -85,4 +85,8 @@ Cypress.Commands.add("isCheckoutSuccessful", () => {
     cy.url().then(() => {
         cy.url().should("include", url.checkoutSuccess).wait(500);
     });
+});
+
+Cypress.Commands.add("waitLoader", () => {
+    cy.get(locators.generic.loader).should('not.be.visible').wait(1000);
 });
